@@ -15,11 +15,18 @@ while 1:
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 
+    # detectando rostros
     for (x, y, w, h) in faces:
-        cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
+        edged = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
         roi_gray = gray[y:y + h, x:x + w]
         roi_color = img[y:y + h, x:x + w]
 
+        #texto a lo que consiga
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        cv2.putText(img, 'Rostro', (x, y), font, 0.5, (11, 255, 255), 2, cv2.LINE_AA)
+        print('consiguio rostro')
+
+        #detectando ojos
         eyes = eye_cascade.detectMultiScale(roi_gray)
         for (ex, ey, ew, eh) in eyes:
             cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
